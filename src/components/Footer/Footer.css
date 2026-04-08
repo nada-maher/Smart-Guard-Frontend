@@ -1,0 +1,130 @@
+.footer {
+  background-color: #1F2937;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: clamp(3rem, 5vw, 4rem) 2rem 0;
+  width: 100%;
+  direction: rtl;
+  box-sizing: border-box;
+}
+
+.footer__container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer__content {
+  display: grid;
+  /* تقسيم لثلاثة أعمدة متساوية */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+  align-items: start;
+}
+
+/* تنسيق قسم البراند */
+.footer__brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.footer__brand-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+.footer__brand-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.footer__brand-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+/* تنسيق عناوين الأقسام */
+.footer__section-title {
+  color: #FFFFFF;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* القوائم والروابط */
+.footer__nav, .footer__social-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer__link, .footer__social-link {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer__link:hover, .footer__social-link:hover {
+  color: #FFFFFF;
+  transform: translateX(-5px); /* تأثير حركة بسيط جهة اليسار لـ RTL */
+}
+
+/* حقوق النشر */
+.footer__copyright {
+  text-align: center;
+}
+
+.footer__divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+}
+
+.footer__copyright-text {
+  padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+/* التجاوب (Responsive) */
+@media (max-width: 1024px) {
+  .footer__content {
+    grid-template-columns: repeat(2, 1fr); /* عمودين في الشاشات المتوسطة */
+  }
+  .footer__section--social {
+    grid-column: span 2; /* السوشيال ميديا تأخذ العرض كاملاً تحتهم */
+    text-align: center;
+  }
+  .footer__social-list {
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer__content {
+    grid-template-columns: 1fr; /* عمود واحد للموبايل */
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .footer__brand-header, .footer__social-link {
+    justify-content: center;
+  }
+  .footer__brand-description {
+    margin: 0 auto;
+  }
+  .footer__section--social {
+    grid-column: span 1;
+  }
+}

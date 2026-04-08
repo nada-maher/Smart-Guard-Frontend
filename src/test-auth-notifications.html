@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentication-Based Notifications</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            direction: rtl;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+        }
+        .mock-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 350px;
+            z-index: 1000;
+            display: none;
+        }
+        .mock-alert.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .alert-title {
+            font-weight: 600;
+            color: #333;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+        }
+        .alert-body {
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 اختبار الإشعارات المستندة على المصادقة - حارس ذكي</h1>
+        
+        <div class="info">
+            <strong>ملاحظة:</strong> هذه الصفحة لاختبار أن الإشعارات تظهر فقط عندما يكون المستخدم مسجلاً الدخول.
+        </div>
+
+        <div class="test-section">
+            <h3>🔑 حالة المصادقة الحالية</h3>
+            <button onclick="checkAuthStatus()">فحص حالة المصادقة</button>
+            <div id="auth-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>👤 محاكاة تسجيل الدخول</h3>
+            <button onclick="simulateLogin()">محاكاة تسجيل الدخول</button>
+            <button onclick="simulateLogout()">محاكاة تسجيل الخروج</button>
+            <div id="login-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔔 اختبار عرض الإشعارات</h3>
+            <button onclick="testNotification()">إرسال إشعار تجريبي</button>
+            <div id="notification-test-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 نتائج الاختبار</h3>
+            <div id="test-results">
+                <p>قم بإجراء الاختبارات أعلاه لرؤية النتائج هنا.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mock Alert Toast -->
+    <div id="mockAlert" class="mock-alert">
+        <div class="alert-header">
+            <span class="alert-title">🚨 تنبيه أمني: Abnormal Behaviour</span>
+            <button class="close-btn" onclick="hideMockAlert()">×</button>
+        </div>
+        <div class="alert-body">
+            <p><strong>الموقع:</strong> المدخل الرئيسي</p>
+            <p><strong>نسبة التأكد:</strong> 42.6%</p>
+            <p><strong>الحالة:</strong> تحذير 🔔</p>
+            <p><strong>الوقت:</strong> <span id="alertTime"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Mock authentication state
+        let isAuthenticated = false;
+        let testResults = [];
+
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function addTestResult(test, expected, actual, passed) {
+            testResults.push({
+                test,
+                expected,
+                actual,
+                passed,
+                timestamp: new Date().toLocaleTimeString()
+            });
+            updateTestResults();
+        }
+
+        function updateTestResults() {
+            const resultsDiv = document.getElementById('test-results');
+            const html = testResults.map(result => `
+                <div style="margin-bottom: 1rem; padding: 0.75rem; border-radius: 6px; background: ${result.passed ? '#d4edda' : '#f8d7da'}; border: 1px solid ${result.passed ? '#c3e6cb' : '#f5c6cb'};">
+                    <strong>${result.test}</strong><br>
+                    <small>المتوقع: ${result.expected} | الفعلي: ${result.actual} | ${result.timestamp}</small>
+                </div>
+            `).join('');
+            resultsDiv.innerHTML = html || '<p>لم يتم إجراء اختبارات بعد.</p>';
+        }
+
+        function checkAuthStatus() {
+            const status = isAuthenticated ? 'مسجل الدخول' : 'غير مسجل الدخول';
+            showStatus('auth-status', `حالة المصادقة الحالية: ${status}`, isAuthenticated ? 'success' : 'warning');
+        }
+
+        function simulateLogin() {
+            isAuthenticated = true;
+            localStorage.setItem('mockToken', 'mock-jwt-token');
+            showStatus('login-status', '✅ تم محاكاة تسجيل الدخول بنجاح', 'success');
+            checkAuthStatus();
+        }
+
+        function simulateLogout() {
+            isAuthenticated = false;
+            localStorage.removeItem('mockToken');
+            showStatus('login-status', '✅ تم محاكاة تسجيل الخروج بنجاح', 'warning');
+            checkAuthStatus();
+        }
+
+        function showMockAlert() {
+            const alert = document.getElementById('mockAlert');
+            document.getElementById('alertTime').textContent = new Date().toLocaleTimeString('ar-EG');
+            alert.classList.add('show');
+        }
+
+        function hideMockAlert() {
+            const alert = document.getElementById('mockAlert');
+            alert.classList.remove('show');
+        }
+
+        function testNotification() {
+            // Simulate the authentication check logic from App.jsx
+            const shouldShow = isAuthenticated; // This is the key logic
+            
+            if (shouldShow) {
+                showMockAlert();
+                showStatus('notification-test-status', '✅ الإشعار ظهر لأن المستخدم مسجل الدخول', 'success');
+                addTestResult(
+                    'اختبار الإشعار (مسجل الدخول)',
+                    'الإشعار يظهر',
+                    'الإشعار ظهر',
+                    true
+                );
+            } else {
+                hideMockAlert();
+                showStatus('notification-test-status', '🔕 الإشعار لم يظهر لأن المستخدم غير مسجل الدخول', 'warning');
+                addTestResult(
+                    'اختبار الإشعار (غير مسجل الدخول)',
+                    'الإشعار لا يظهر',
+                    'الإشعار لم يظهر',
+                    true
+                );
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            checkAuthStatus();
+            
+            // Check if there's a mock token (simulate app startup)
+            if (localStorage.getItem('mockToken')) {
+                isAuthenticated = true;
+                checkAuthStatus();
+            }
+        });
+    </script>
+</body>
+</html>

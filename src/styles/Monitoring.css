@@ -1,0 +1,852 @@
+/* Monitoring Page - RTL with Dark Mode Support */
+.monitoring-page {
+  direction: rtl;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Hero Section --- */
+.monitoring-hero {
+  padding: 4rem 2rem;
+  background: var(--hero-bg);
+  color: var(--hero-text);
+  text-align: center;
+  box-shadow: var(--header-shadow);
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 0 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- WebSocket Status --- */
+.ws-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-inverse);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 200px;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+.ws-status-indicator.connected {
+  color: var(--color-success);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.ws-status-indicator.disconnected {
+  color: var(--color-emergency);
+  border-color: rgba(248, 113, 113, 0.3);
+  animation: pulse-border 2s infinite;
+}
+
+.ws-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ws-status-indicator.connected .ws-dot {
+  box-shadow: 0 0 8px currentColor;
+}
+
+@keyframes pulse-border {
+  0% { border-color: rgba(248, 113, 113, 0.3); }
+  50% { border-color: rgba(248, 113, 113, 0.7); }
+  100% { border-color: rgba(248, 113, 113, 0.3); }
+}
+
+.monitoring-hero__title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--hero-text);
+}
+
+.monitoring-hero__subtitle {
+  font-size: 1.2rem;
+  color: var(--hero-subtitle);
+}
+
+/* Content */
+.monitoring-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sorting-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.sorting-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.sorting-select {
+  border: none;
+  padding: 0.4rem 2rem 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.sorting-select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+.section-title {
+  margin-bottom: 0;
+}
+
+/* Camera Grid Layout */
+.camera-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Camera Cards */
+.camera-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  /*overflow: hidden;*/
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+}
+
+.camera-card--large {
+  min-height: 350px;
+  max-height: 400px;
+}
+
+.camera-card--small {
+  margin-bottom: 1rem;
+}
+
+/* Camera Header */
+.camera-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.camera-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.camera-title--small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Camera Header Actions */
+.camera-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.camera-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  outline: none !important;
+}
+
+.camera-toggle-btn.enabled {
+  background-color: var(--status-emergency-bg);
+  color: var(--status-emergency-text);
+  border-color: var(--color-emergency);
+}
+
+.camera-toggle-btn.enabled:hover {
+  opacity: 0.8;
+}
+
+.camera-toggle-btn.disabled {
+  background-color: var(--status-success-bg);
+  color: var(--status-success-text);
+  border-color: var(--color-success);
+}
+
+.camera-toggle-btn.disabled:hover {
+  opacity: 0.8;
+}
+
+.camera-toggle-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner for loading state */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Updated Live Indicator */
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.live-indicator.active {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+    border: 1px solid var(--color-success);
+  }
+
+.live-indicator.inactive {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* --- Events Log & Search --- */
+.events-section {
+  background: var(--bg-secondary);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+  margin-top: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.search-bar {
+  display: flex;
+  width: 100%;
+  /*max-width: 600px;*/
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  direction: rtl;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  direction: rtl;
+  outline: none !important;
+  transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  text-align: right;
+  font-size: 0.9rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  outline: none !important;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-secondary);
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.events-table th {
+  background-color: var(--table-header-bg);
+  padding: 1rem;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.events-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.events-table tbody tr:hover {
+  background-color: var(--table-row-hover);
+}
+
+.row-emergency {
+  background-color: var(--status-emergency-bg);
+  border-right: 6px solid var(--color-emergency);
+  animation: pulse-red-bg 1.5s infinite;
+}
+
+.row-high {
+  background-color: var(--status-high-bg);
+  border-right: 6px solid var(--color-high);
+}
+
+.row-medium {
+  background-color: var(--status-medium-bg);
+  border-right: 6px solid var(--color-medium);
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-badge--emergency {
+  background: var(--status-emergency-bg);
+  color: var(--status-emergency-text);
+  font-weight: bold;
+  border: 1px solid var(--color-emergency);
+  box-shadow: 0 0 10px rgba(185, 28, 28, 0.2);
+}
+
+.status-badge--high {
+  background: var(--status-high-bg);
+  color: var(--status-high-text);
+  font-weight: 600;
+  border: 1px solid var(--color-high);
+}
+
+.status-badge--medium {
+  background: var(--status-medium-bg);
+  color: var(--status-medium-text);
+  border: 1px solid var(--color-medium);
+}
+
+.model-tag--emergency {
+  background: var(--bg-secondary);
+  color: var(--color-emergency);
+  border: 2px solid var(--color-emergency);
+  font-weight: 900;
+  text-transform: uppercase;
+  animation: pulse-emergency 0.8s infinite;
+}
+
+@keyframes pulse-red-bg {
+  0% { background-color: var(--status-emergency-bg); opacity: 1; }
+  50% { background-color: var(--status-emergency-bg); opacity: 0.8; }
+  100% { background-color: var(--status-emergency-bg); opacity: 1; }
+}
+
+@keyframes pulse-emergency {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(153, 27, 27, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(153, 27, 27, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(153, 27, 27, 0); }
+}
+
+.status-badge--pending {
+  background: var(--status-medium-bg);
+  color: var(--status-medium-text);
+}
+
+.status-badge--resolved {
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
+  border: 1px solid var(--color-success);
+}
+
+.model-tag {
+  font-size: 0.75rem;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  border: 1px solid var(--border-color);
+}
+
+.model-tag--keras {
+  background: var(--bg-tertiary);
+  color: var(--accent-primary);
+  border-color: var(--border-color);
+  font-weight: bold;
+}
+
+.model-tag--fight {
+  background: var(--status-high-bg);
+  color: var(--status-high-text);
+  border-color: var(--color-high);
+  font-weight: bold;
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); background-color: var(--status-emergency-bg); }
+  100% { transform: scale(1); }
+}
+
+.live-indicator--small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-success);
+  border-radius: 50%;
+  animation: pulse-live 1.5s ease-in-out infinite;
+}
+
+.live-indicator.inactive .live-dot {
+  background: var(--color-emergency);
+  animation: none;
+}
+
+@keyframes pulse-live {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Camera View */
+.camera-view {
+  min-height: 350px;
+  max-height: 400px;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.camera-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block; /* Make it visible */
+}
+
+.camera-view--small {
+  min-height: 150px;
+}
+
+.camera-placeholder {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.camera-placeholder--small svg {
+  width: 32px;
+  height: 32px;
+}
+
+.camera-placeholder p {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Camera Footer */
+.camera-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-color);
+}
+
+.camera-time {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.camera-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.control-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  outline: none !important;
+}
+
+.control-btn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Sidebar */
+.camera-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Notification Dropdown */
+.hero-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ws-status-indic.ws-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 200px;
+  justify-content: center;
+}
+
+.ws-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+}
+
+.ws-status-indicator.connected .ws-status-dot {
+  background-color: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+}
+
+.ws-status-indicator.connecting .ws-status-dot {
+  background-color: var(--color-high);
+  animation: pulse-orange 1s infinite;
+}
+
+.ws-status-indicator.disconnected .ws-status-dot {
+  background-color: var(--color-emergency);
+  box-shadow: 0 0 8px var(--color-emergency);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MONITORING
+   ======================================== */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) {
+  .monitoring-hero {
+    padding: 3rem 1.5rem;
+  }
+  
+  .monitoring-hero__title {
+    font-size: 2.5rem;
+  }
+  
+  .monitoring-hero__subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .monitoring-content {
+    padding: 0 1.5rem 3rem;
+  }
+  
+  .monitoring-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .camera-card {
+    border-radius: 16px;
+  }
+  
+  .camera-header {
+    padding: 1rem;
+  }
+  
+  .camera-title {
+    font-size: 1.1rem;
+  }
+  
+  .camera-status {
+    font-size: 0.8rem;
+  }
+  
+  .video-container {
+    height: 200px;
+  }
+  
+  .camera-controls {
+    padding: 1rem;
+  }
+  
+  .control-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile Styles (480px - 768px) */
+@media (max-width: 768px) {
+  .monitoring-hero {
+    padding: 2rem 1rem;
+  }
+  
+  .monitoring-hero__title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .monitoring-hero__subtitle {
+    font-size: 1rem;
+  }
+  
+  .monitoring-content {
+    padding: 0 1rem 2rem;
+  }
+  
+  .monitoring-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .camera-card {
+    border-radius: 12px;
+  }
+  
+  .camera-header {
+    padding: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .camera-title {
+    font-size: 1rem;
+  }
+  
+  .camera-status {
+    font-size: 0.75rem;
+  }
+  
+  .video-container {
+    height: 180px;
+  }
+  
+  .camera-controls {
+    padding: 0.75rem;
+  }
+  
+  .control-btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .ws-status {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+  }
+}
+
+/* Small Mobile Styles (320px - 480px) */
+@media (max-width: 480px) {
+  .monitoring-hero {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .monitoring-hero__title {
+    font-size: 1.75rem;
+  }
+  
+  .monitoring-hero__subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .monitoring-content {
+    padding: 0 0.75rem 1.5rem;
+  }
+  
+  .camera-card {
+    border-radius: 8px;
+  }
+  
+  .camera-header {
+    padding: 0.5rem;
+  }
+  
+  .camera-title {
+    font-size: 0.9rem;
+  }
+  
+  .camera-status {
+    font-size: 0.7rem;
+  }
+  
+  .video-container {
+    height: 150px;
+  }
+  
+  .camera-controls {
+    padding: 0.5rem;
+  }
+  
+  .control-btn {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .ws-status {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Profile dropdown organization styling */
+.profile-dropdown-org {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--bg-tertiary);
+  border-radius: 0.375rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Large Desktop Styles (1400px+) */
+@media (min-width: 1400px) {
+  .monitoring-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .monitoring-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+  }
+  
+  .camera-card {
+    border-radius: 20px;
+  }
+  
+  .video-container {
+    height: 300px;
+  }
+}
+
+/* Ultra-wide Screens (1920px+) */
+@media (min-width: 1920px) {
+  .monitoring-content {
+    max-width: 1600px;
+  }
+  
+  .monitoring-grid {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+  
+  .video-container {
+    height: 350px;
+  }
+}

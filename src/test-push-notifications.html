@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Push Notifications - Smart Guard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            direction: rtl;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 اختبار إشعارات الويب الفورية - حارس ذكي</h1>
+        
+        <div class="info">
+            <strong>ملاحظة:</strong> هذه الصفحة لاختبار وظائف إشعارات الويب. يجب أن تكون متصلاً بالإنترنت وتستخدم متصفحاً حديثاً يدعم Service Workers.
+        </div>
+
+        <div class="test-section">
+            <h3>📱 فحص دعم المتصفح</h3>
+            <button onclick="checkBrowserSupport()">فحص الدعم</button>
+            <div id="browser-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔐 طلب الإذن للإشعارات</h3>
+            <button onclick="requestNotificationPermission()">طلب الإذن</button>
+            <div id="permission-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📡 اختبار الإشعار المحلي</h3>
+            <button onclick="testLocalNotification()">إرسال إشعار تجريبي</button>
+            <div id="local-notification-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🌐 اختبار اشتراك Push</h3>
+            <button onclick="testPushSubscription()">اشتراك في Push Notifications</button>
+            <button onclick="testPushUnsubscription()">إلغاء الاشتراك</button>
+            <div id="push-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 حالة الإشعارات الحالية</h3>
+            <button onclick="checkCurrentStatus">فحص الحالة</button>
+            <div id="current-status"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock push notification service for testing
+        const testPushService = {
+            isSupportedBrowser() {
+                return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+            },
+
+            async requestPermission() {
+                if (!this.isSupportedBrowser()) {
+                    return false;
+                }
+                try {
+                    const permission = await Notification.requestPermission();
+                    return permission === 'granted';
+                } catch (error) {
+                    console.error('Error requesting permission:', error);
+                    return false;
+                }
+            },
+
+            showLocalNotification(title, options = {}) {
+                if (!('Notification' in window) || Notification.permission !== 'granted') {
+                    return null;
+                }
+
+                const notification = new Notification(title, {
+                    icon: '/favicon.ico',
+                    badge: '/favicon.ico',
+                    ...options
+                });
+
+                setTimeout(() => notification.close(), 5000);
+                return notification;
+            },
+
+            async subscribeToPush() {
+                if (!this.isSupportedBrowser()) {
+                    return null;
+                }
+
+                try {
+                    if (Notification.permission !== 'granted') {
+                        const granted = await this.requestPermission();
+                        if (!granted) return null;
+                    }
+
+                    const registration = await navigator.serviceWorker.ready;
+                    
+                    const subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: this.urlBase64ToUint8Array(
+                            'BDdY_gAqR7LzXlVq2jQ8XzDxJx9z6X5M4WkP7nQ8R3tY2uI1oP0sK9eF6cB5vN8mG2hJ4kL1pQ3wE6rT9yU7iO5sA2dF4gH8jK1lN3cV5bX7z'
+                        )
+                    });
+
+                    return subscription;
+                } catch (error) {
+                    console.error('Error subscribing to push:', error);
+                    return null;
+                }
+            },
+
+            urlBase64ToUint8Array(base64String) {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding)
+                    .replace(/-/g, '+')
+                    .replace(/_/g, '/');
+
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+
+                for (let i = 0; i < rawData.length; ++i) {
+                    outputArray[i] = rawData.charCodeAt(i);
+                }
+                return outputArray;
+            }
+        };
+
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function checkBrowserSupport() {
+            const supported = testPushService.isSupportedBrowser();
+            const message = supported 
+                ? '✅ متصفحك يدعم إشعارات الويب الفورية' 
+                : '❌ متصفحك لا يدعم إشعارات الويب الفورية. يرجى استخدام متصفح حديث مثل Chrome, Firefox, أو Edge';
+            showStatus('browser-status', message, supported ? 'success' : 'error');
+        }
+
+        async function requestNotificationPermission() {
+            const granted = await testPushService.requestPermission();
+            const message = granted 
+                ? '✅ تم منح الإذن للإشعارات بنجاح' 
+                : '❌ تم رفض الإذن للإشعارات أو حدث خطأ';
+            showStatus('permission-status', message, granted ? 'success' : 'error');
+        }
+
+        function testLocalNotification() {
+            if (Notification.permission !== 'granted') {
+                showStatus('local-notification-status', '❌ يجب منح الإذن للإشعارات أولاً', 'error');
+                return;
+            }
+
+            testPushService.showLocalNotification(
+                '🔔 اختبار إشعار من حارس ذكي',
+                {
+                    body: 'هذا إشعار تجريبي للتأكد من عمل الإشعارات المحلية',
+                    icon: '/favicon.ico',
+                    tag: 'test-notification'
+                }
+            );
+
+            showStatus('local-notification-status', '✅ تم إرسال الإشعار التجريبي بنجاح', 'success');
+        }
+
+        async function testPushSubscription() {
+            try {
+                const subscription = await testPushService.subscribeToPush();
+                if (subscription) {
+                    showStatus('push-status', '✅ تم الاشتراك في إشعارات Push بنجاح', 'success');
+                    console.log('Push subscription:', subscription);
+                } else {
+                    showStatus('push-status', '❌ فشل الاشتراك في إشعارات Push', 'error');
+                }
+            } catch (error) {
+                showStatus('push-status', `❌ خطأ في الاشتراك: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPushUnsubscription() {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription = await registration.pushManager.getSubscription();
+                
+                if (subscription) {
+                    await subscription.unsubscribe();
+                    showStatus('push-status', '✅ تم إلغاء الاشتراك بنجاح', 'success');
+                } else {
+                    showStatus('push-status', '⚠️ لا يوجد اشتراك نشط', 'warning');
+                }
+            } catch (error) {
+                showStatus('push-status', `❌ خطأ في إلغاء الاشتراك: ${error.message}`, 'error');
+            }
+        }
+
+        function checkCurrentStatus() {
+            const status = {
+                supported: testPushService.isSupportedBrowser(),
+                permission: Notification.permission,
+                serviceWorker: 'serviceWorker' in navigator,
+                pushManager: 'PushManager' in window
+            };
+
+            const statusHtml = `
+                <div class="status info">
+                    <strong>حالة الإشعارات الحالية:</strong><br>
+                    • دعم المتصفح: ${status.supported ? '✅ مدعوم' : '❌ غير مدعوم'}<br>
+                    • إذن الإشعارات: ${status.permission === 'granted' ? '✅ ممنوح' : status.permission === 'denied' ? '❌ مرفوض' : '⏳ لم يطلب بعد'}<br>
+                    • Service Worker: ${status.serviceWorker ? '✅ مدعوم' : '❌ غير مدعوم'}<br>
+                    • Push Manager: ${status.pushManager ? '✅ مدعوم' : '❌ غير مدعوم'}
+                </div>
+            `;
+
+            document.getElementById('current-status').innerHTML = statusHtml;
+        }
+
+        // Check status on page load
+        window.addEventListener('load', () => {
+            checkBrowserSupport();
+            checkCurrentStatus();
+        });
+    </script>
+</body>
+</html>

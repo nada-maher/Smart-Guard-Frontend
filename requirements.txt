@@ -1,0 +1,13 @@
+# Smart Guard Frontend Dependencies
+# Install with: npm install
+
+# This project uses npm/yarn for dependency management
+# Key dependencies:
+# - react@^19.2.0 - UI framework
+# - react-dom@^19.2.0 - DOM rendering
+# - react-router-dom@^7.13.0 - Client-side routing
+# - vite@^7.2.4 - Build tool
+# - eslint@^9.39.1 - Code linting
+
+# Install all dependencies:
+npm install

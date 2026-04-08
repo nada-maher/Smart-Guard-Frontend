@@ -1,0 +1,508 @@
+/* Contact Page Styles - Smart Guard Team */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+.contact-page {
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-page .dashboard-page {
+  background: #ffffff;
+}
+
+.contact-page.dark {
+  background: #1a1a2e;
+}
+
+.contact-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  min-height: calc(100vh - 200px);
+}
+
+.contact-header {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--hero-bg);
+  color: var(--hero-text);
+  box-shadow: var(--header-shadow);
+  border-bottom: 1px solid var(--border-color);
+  margin: 0;
+  width: 100%;
+  border-radius: 0 0 24px 24px;
+}
+
+.contact-page.dark .contact-header {
+  background: var(--hero-bg);
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--hero-text);
+  border-radius: 0 0 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--hero-text);
+  margin-bottom: 0.5rem;
+}
+
+.contact-page.dark .contact-title {
+  color: var(--hero-text);
+}
+
+.contact-subtitle {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--hero-subtitle);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.contact-page.dark .contact-subtitle {
+  color: var(--hero-subtitle);
+  opacity: 0.8;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.team-grid .email-card {
+  grid-column: span 5;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+body.contact-page.dark .team-grid .team-card,
+body.contact-page.dark .team-grid .email-card {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.team-card:hover::before {
+  transform: translateX(100%);
+}
+
+.team-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.contact-page.dark .team-card:hover {
+  box-shadow: 0 20px 40px rgba(79, 172, 254, 0.3);
+}
+
+.card-image {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  position: relative;
+}
+
+.contact-page.dark .card-image {
+  border: 3px solid #ffffff;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover .card-image img {
+  transform: scale(1.1);
+}
+
+.card-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.member-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  background: var(--hero-bg);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.contact-page.dark .member-name {
+  background: var(--hero-bg);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.social-icon i {
+  font-size: 1.2rem;
+  color: #ffffff;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover i {
+  transform: scale(1.1);
+}
+
+.github-icon {
+  background: linear-gradient(135deg, #333333, #666666);
+}
+
+.github-icon::before {
+  background: rgba(51, 51, 51, 0.3);
+}
+
+.github-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(51, 51, 51, 0.3);
+}
+
+.linkedin-icon {
+  background: linear-gradient(135deg, #0077b5, #00a0dc);
+}
+
+.linkedin-icon::before {
+  background: rgba(0, 119, 181, 0.3);
+}
+
+.linkedin-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 119, 181, 0.3);
+}
+
+/* Email Card Styles */
+.email-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.email-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.contact-page.dark .email-card {
+  background: rgba(30, 30, 46, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.contact-page.dark .email-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.contact-page.dark .email-image {
+  background: var(--hero-bg);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.contact-page.dark .contact-text {
+  color: #ffffff;
+}
+
+.email-image {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  background: var(--hero-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.email-image i {
+  font-size: 3rem;
+  color: #ffffff;
+}
+
+.contact-text {
+  font-size: 0.9rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.contact-page.dark .contact-text {
+  color: #ffffff;
+}
+
+.email-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid #6c757d;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.contact-page.dark .email-link {
+  background: var(--bg-tertiary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.email-link:hover {
+  background: var(--accent-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-wrapper {
+    padding: 60px 15px 30px;
+  }
+  
+  .contact-title {
+    font-size: 2.5rem;
+  }
+  
+  .contact-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .team-card {
+    padding: 20px;
+  }
+  
+  .card-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .member-name {
+    font-size: 1.2rem;
+  }
+  
+  .social-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .team-card {
+    padding: 15px;
+  }
+  
+  .card-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .contact-title {
+    font-size: 2rem;
+  }
+}
+
+/* ULTIMATE DARK MODE OVERRIDE - MUST BE AT END */
+[data-theme="dark"] .dashboard-page .team-grid .team-card,
+[data-theme="dark"] .dashboard-page .team-grid .email-card {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .dashboard-page .team-grid .team-card:hover,
+[data-theme="dark"] .dashboard-page .team-grid .email-card:hover {
+  transform: translateY(-15px) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* White text for dark mode cards */
+[data-theme="dark"] .dashboard-page .team-grid .team-card .member-name,
+[data-theme="dark"] .dashboard-page .team-grid .email-card .member-name {
+  color: #ffffff !important;
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .dashboard-page .team-grid .email-card .contact-text {
+  color: #ffffff !important;
+}
+
+/* White border for images in dark mode */
+[data-theme="dark"] .dashboard-page .team-grid .team-card .card-image,
+[data-theme="dark"] .dashboard-page .team-grid .email-card .email-image {
+  border: 3px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* RTL Support */
+.contact-page {
+  text-align: right;
+}
+
+.member-name {
+  text-align: right;
+}
+
+.member-role {
+  text-align: right;
+}
+
+.social-links {
+  flex-direction: row-reverse;
+}
+
+/* High DPI Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card-image img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .social-links {
+    display: none;
+  }
+  
+  .team-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
