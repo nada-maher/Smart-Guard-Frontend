@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../Hero/Hero.css';
 import { authService } from '../../services/authService';
 import logoImage from '../../assets/images/LogoU.png';
-import logoLight from '../../assets/images/Logo.png';
+import logoLight from '../../assets/images/logo.png';
 import logoDark from '../../assets/images/Logo(dark mood).png';
 
 function Navbar({ 
