@@ -293,7 +293,7 @@ function Dashboard({ events, setEvents }) {
       const organization = user?.organization || 'Smart Guard';
       
       // Download organization-specific logs from backend
-      const response = await fetch(`http://127.0.0.1:8001/logs/${encodeURIComponent(organization)}?format=${format}`, {
+      const response = await fetch(`https://milan-kim-encryption-marshall.trycloudflare.com/logs/${encodeURIComponent(organization)}?format=${format}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('supabase_token') || ''}`
