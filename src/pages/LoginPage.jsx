@@ -71,7 +71,7 @@ function LoginPage() {
       // Set organization in backend for email notifications
       if (user.organization) {
         try {
-          const response = await fetch('http://127.0.0.1:8001/set-organization', {
+          const response = await fetch('https://milan-kim-encryption-marshall.trycloudflare.com/set-organization', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
