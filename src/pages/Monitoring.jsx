@@ -109,7 +109,7 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
           setCurrentOrg(user.organization);
           
           try {
-            const response = await fetch('http://127.0.0.1:8001/set-organization', {
+              const response = await fetch('https://milan-kim-encryption-marshall.trycloudflare.com/set-organization',  {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/camera/status');
+        const response = await axios.get('https://milan-kim-encryption-marshall.trycloudflare.com/camera/status');
         setCameraEnabled(response.data.enabled);
         setStreamKey(Date.now());
       } catch (err) {
