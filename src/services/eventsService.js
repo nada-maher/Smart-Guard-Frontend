@@ -3,7 +3,7 @@
  * Handles API calls for events with organization-based filtering
  */
 
-const API_BASE_URL = 'https://thermogenetic-iesha-hydrogenous.ngrok-free.dev';
+const API_BASE_URL = 'https://salt-playoff-gravy.ngrok-free.dev';
 
 /**
  * Get events with organization filtering
