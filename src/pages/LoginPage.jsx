@@ -71,7 +71,7 @@ function LoginPage() {
       // Set organization in backend for email notifications
       if (user.organization) {
         try {
-          const response = await fetch('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/set-organization', {
+          const response = await fetch('https://salt-playoff-gravy.ngrok-free.dev/set-organization', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
