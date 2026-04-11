@@ -3,7 +3,7 @@
  * Handles API calls for events with organization-based filtering
  */
 
-const API_BASE_URL = 'https://milan-kim-encryption-marshall.trycloudflare.com';
+const API_BASE_URL = 'https://thermogenetic-iesha-hydrogenous.ngrok-free.dev';
 
 /**
  * Get events with organization filtering
