@@ -5,7 +5,7 @@
 
 import { supabaseClient } from '../config/supabaseConfig.js';
 
-const API_BASE_URL = 'https://thermogenetic-iesha-hydrogenous.ngrok-free.dev';
+const API_BASE_URL = 'https://salt-playoff-gravy.ngrok-free.dev';
 
 export const authService = {
   /**
