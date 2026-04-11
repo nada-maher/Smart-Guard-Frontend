@@ -13,7 +13,7 @@ import libraryImage from '../assets/images/library.png';
 const CameraFeed = memo(({ streamKey, handleCameraLoad, handleCameraError }) => {
   return (
     <img 
-      src={`http://127.0.0.1:8001/stream/mjpeg?t=${streamKey}`} 
+      src={`https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/stream/mjpeg?t=${streamKey}`} 
       alt="Live Camera Feed" 
       className="camera-feed"
       crossOrigin="anonymous"
@@ -23,7 +23,7 @@ const CameraFeed = memo(({ streamKey, handleCameraLoad, handleCameraError }) => 
         handleCameraError();
         // Try fallback to /live endpoint if /stream/mjpeg fails
         if (e.target && !e.target.src.includes('/live')) {
-          e.target.src = `http://127.0.0.1:8001/live?t=${Date.now()}`;
+          e.target.src = `https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/live?t=${Date.now()}`;
           return;
         }
         
@@ -200,7 +200,7 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
   const toggleCamera = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post('http://127.0.0.1:8001/camera/toggle');
+      const response = await axios.post('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/camera/toggle');
       setCameraEnabled(response.data.enabled);
       setStreamKey(Date.now()); // Update stream key only when camera is toggled
     } catch (err) {
