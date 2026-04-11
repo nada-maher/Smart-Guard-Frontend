@@ -27,7 +27,7 @@ function Dashboard({ events, setEvents }) {
       // Ensure organization is set in backend for email notifications
       if (user && user.organization) {
         try {
-            const response = await fetch('https://milan-kim-encryption-marshall.trycloudflare.com/set-organization', {
+            const response = await fetch('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/set-organization', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -293,7 +293,7 @@ function Dashboard({ events, setEvents }) {
       const organization = user?.organization || 'Smart Guard';
       
       // Download organization-specific logs from backend
-      const response = await fetch(`https://milan-kim-encryption-marshall.trycloudflare.com/logs/${encodeURIComponent(organization)}?format=${format}`, {
+      const response = await fetch(`https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/logs/${encodeURIComponent(organization)}?format=${format}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('supabase_token') || ''}`
