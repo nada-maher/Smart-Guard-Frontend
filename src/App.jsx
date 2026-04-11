@@ -159,7 +159,7 @@ function App() {
     let reconnectTimer;
 
     const connect = () => {
-      ws = new WebSocket("wss://thermogenetic-iesha-hydrogenous.ngrok-free.dev/ws/alerts");
+      ws = new WebSocket("wss://salt-playoff-gravy.ngrok-free.dev/ws/alerts");
       
       ws.onopen = () => {
         console.log('✅ Global WebSocket connected');
@@ -188,7 +188,7 @@ function App() {
               
               // Also set organization via HTTP as fallback
               try {
-                const response = await fetch('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/set-organization', {
+                const response = await fetch('https://salt-playoff-gravy.ngrok-free.dev/set-organization', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -230,7 +230,7 @@ function App() {
           try {
             const user = await authService.getCurrentUser();
             if (user && user.organization) {
-              const response = await fetch('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/set-organization', {
+              const response = await fetch('https://salt-playoff-gravy.ngrok-free.dev/set-organization', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
