@@ -109,7 +109,7 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
           setCurrentOrg(user.organization);
           
           try {
-              const response = await fetch('https://milan-kim-encryption-marshall.trycloudflare.com/set-organization',  {
+              const response = await fetch('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/set-organization',  {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ function Monitoring({ events = [], unreadCount = 0, wsConnected = false, isWsCon
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await axios.get('https://milan-kim-encryption-marshall.trycloudflare.com/camera/status');
+        const response = await axios.get('https://thermogenetic-iesha-hydrogenous.ngrok-free.dev/camera/status');
         setCameraEnabled(response.data.enabled);
         setStreamKey(Date.now());
       } catch (err) {
